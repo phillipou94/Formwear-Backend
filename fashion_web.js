@@ -1,0 +1,24 @@
+// fashion_web.js
+var express = require("express");
+var logfmt = require("logfmt");
+var mongo = require('mongodb'); //npm install
+var mongoskin = require('mongoskin'); //npm install
+var bodyParser = require('body-parser'); //npm install
+var app = express();
+var mongoURL = process.env.MONGOLABL_URI || process.env.MONGOHQ_URL || 'mongodb://localhost/mdb' //needed to add MONGOHQ to Heroku
+var db = mongoskin.db(mongoURL, {safe:true})
+
+app.use(bodyParser.json({limit: '50mb'}));
+app.use(bodyParser.urlencoded({limit: '50mb', extended: true}));
+
+app.param('collectionName', function(req,res,next,collectionName){
+	req.collection = db.collection(collectionName)
+	return next()
+})
+
+app.use(logfmt.requestLogger());
+
+app.get('/', function(req, res) {
+  res.send('Hello World!');
+
+});

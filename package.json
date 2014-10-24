@@ -1,0 +1,19 @@
+{
+  "name": "FashApp",
+  "version": "1.0.0",
+  "description": "fashion app that lets you recommend clothes to your friends",
+  "main": "fashion_web.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "'git@heroku.com:fashapp.git'"
+  },
+  "author": "Phillip Ou",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.10.0",
+    "logfmt": "^1.2.0"
+  }
+}
