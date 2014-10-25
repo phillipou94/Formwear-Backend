@@ -27,3 +27,36 @@ var port = Number(process.env.PORT || 5000);
 app.listen(port, function() {
   console.log("Listening on " + port);
 });
+
+//get request for all users
+app.get('/users',function(req,res){
+	var collection = db.collection("users")
+
+	collection.find({},{}).toArray(function(e,results){
+		console.log(e);
+		if(e) res.status(500).send()
+			res.send(results)
+	})
+})
+
+//get request for one user given his facebook ID
+app.get('/users/:id',function(req,res){
+	var collection = db.collection("users")
+	collection.find({"userID": { $in: [req.params.id ] }},{}).toArray(function(e,results){
+		console.log(e);
+		if(e) res.status(500).send()
+			res.send(results)
+	})
+})
+
+
+//post request from users
+app.post('/users', function(req,res){
+	var collection = db.collection("users")
+	console.log("Put Request")
+	console.log(req.body)
+	collection.insert(req.body,{},function(e,results){
+		if (e) res.status(500).send()
+			res.send(results)
+	})
+})
