@@ -42,11 +42,11 @@ app.get('/users',function(req,res){
 //get request for one user given his facebook ID
 app.get('/users/:id',function(req,res){
 	var collection = db.collection("users")
+	console.log(req.params.id)
 	collection.find({"userID": { $in: [req.params.id ] }},{}).toArray(function(e,results){
 		console.log(e);
 		if(e) res.status(500).send()
 			res.send(results)
-			res.send(req.params.id)
 	})
 })
 
