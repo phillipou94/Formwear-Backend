@@ -46,6 +46,7 @@ app.get('/users/:id',function(req,res){
 		console.log(e);
 		if(e) res.status(500).send()
 			res.send(results)
+			res.send(req.params.id)
 	})
 })
 
