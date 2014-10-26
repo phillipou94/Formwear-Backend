@@ -50,13 +50,33 @@ app.get('/users/:id',function(req,res){
 })
 
 
-//post request from users
+//create new user
 app.post('/users', function(req,res){
 	var collection = db.collection("users")
 	console.log("Put Request")
 	console.log(req.body)
 	collection.insert(req.body,{},function(e,results){
 		if (e) res.status(500).send()
+			res.send(results)
+	})
+})
+
+//create new user
+app.post('/items', function(req,res){
+	var collection = db.collection("items")
+	console.log(req.body)
+	collection.insert(req.body,{},function(e,results){
+		if (e) res.status(500).send()
+			res.send(results)
+	})
+})
+
+//get request for items this user liked
+app.get('/items/:id',function(req,res){
+	var collection = db.collection("items")
+	collection.find({"forUserID": { $in: [req.params.id ] }},{}).toArray(function(e,results){
+		console.log(e);
+		if(e) res.status(500).send()
 			res.send(results)
 	})
 })
