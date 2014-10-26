@@ -61,12 +61,23 @@ app.post('/users', function(req,res){
 	})
 })
 
-//create new user
+//create new item
 app.post('/items', function(req,res){
 	var collection = db.collection("items")
 	console.log(req.body)
 	collection.insert(req.body,{},function(e,results){
 		if (e) res.status(500).send()
+			res.send(results)
+	})
+})
+
+//get request for all items
+app.get('/items',function(req,res){
+	var collection = db.collection("items")
+
+	collection.find({},{}).toArray(function(e,results){
+		console.log(e);
+		if(e) res.status(500).send()
 			res.send(results)
 	})
 })
