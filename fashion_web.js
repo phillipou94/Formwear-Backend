@@ -50,6 +50,23 @@ app.get('/users/:id',function(req,res){
 	})
 })
 
+app.put('/users/:id/profilePictures', function(req, res, next) {
+
+  var collection = db.collection('users')
+
+  var str1 = "profilePictures"; //key
+  
+  
+ var action = {};
+ action[str1] = req.body;
+  collection.updateById(req.params.id, {$set: //inc for integers, set for strings
+    {followingDictionary:req.body}
+  }, {safe: true, multi: false}, function(e, result){
+    if (e) res.status(500).send()
+    res.send(req.body)
+  })
+})
+
 
 //create new user
 app.post('/users', function(req,res){
