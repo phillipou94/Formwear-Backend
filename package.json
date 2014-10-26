@@ -13,6 +13,7 @@
   "author": "Phillip Ou",
   "license": "ISC",
   "dependencies": {
+    "aws-sdk": "^2.0.23",
     "express": "^4.10.0",
     "logfmt": "^1.2.0"
   }

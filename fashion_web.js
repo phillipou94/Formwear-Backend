@@ -7,9 +7,45 @@ var bodyParser = require('body-parser'); //npm install
 var app = express();
 var mongoURL = process.env.MONGOLABL_URI || process.env.MONGOHQ_URL || 'mongodb://localhost/mdb' //needed to add MONGOHQ to Heroku
 var db = mongoskin.db(mongoURL, {safe:true})
+var AWS = require('aws-sdk')
+var busboy = require('connect-busboy')
+
+var s3 = new AWS.S3()
+
+AWS.config.loadFromPath('./awsAccessKeys.json')
+
+
 
 app.use(bodyParser.json({limit: '50mb'}));
 app.use(bodyParser.urlencoded({limit: '50mb', extended: true}));
+app.use(busboy())
+
+//getting images from s3
+app.get('/profilePictures/', function(req, res) {
+  s3.listObjects({Bucket: 'ou.phillip.profilepictures'}, function(er, data) {
+    if (er) {}
+    res.send(data)
+  })
+})
+//uploading images from s3
+app.post('/profilePictures/', function(req, res) {
+  req.busboy.on('file', function(fieldName, file, fileName) {
+    file.on('data', function(data) {
+      console.log("Uploading: " + fileName + " size: " + data.length)
+      s3.putObject({Bucket: 'ou.phillip.profilepictures', Body: data, Key: fileName, ContentLength: data.length}, function(err, data) {
+        if (err) {
+          console.log(err)
+          res.send('error')
+        }
+        else {
+          res.send('success!')
+          console.log('success')
+        }   
+      })
+    })
+  })
+  req.pipe(req.busboy)
+})
 
 app.param('collectionName', function(req,res,next,collectionName){
 	req.collection = db.collection(collectionName)
