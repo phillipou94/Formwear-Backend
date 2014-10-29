@@ -145,3 +145,14 @@ app.get('/items/:id',function(req,res){
 			res.send(results)
 	})
 })
+
+//delete request for highlights
+app.delete('/items/:id', function(req,res){ //pass parameter id.
+	console.log("yep")
+	var collection = db.collection("items")
+
+	collection.removeById(req.params.id, function(e, result){
+		if (e) return next(e)
+		res.send((result===1)?{msg: 'success'}:{msg:'error'})
+	})
+})
