@@ -95,7 +95,7 @@ app.put('/users/:id/profilePicture', function(req, res, next) {
     {profilePictureID:req.body}
   }, {safe: true, multi: false}, function(e, result){
     if (e) res.status(500).send()
-    res.send(req.body)
+    	res.send("gucci")
   })
 })
 
