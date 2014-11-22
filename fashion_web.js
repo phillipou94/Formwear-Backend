@@ -92,7 +92,9 @@ app.put('/users/:id/profilePicture', function(req, res, next) {
  var action = {};
  str1 = "profilePictureID"
  action[str1] = req.body;
-  collection.updateById(req.params.id, {$set: //inc for integers, set for strings
+ console.log("HERE IT IS");
+ console.log(req.body);
+ collection.updateById(req.params.id, {$set: //inc for integers, set for strings
     {profilePictureID:req.body}
   }, {safe: true, multi: false}, function(e, result){
     if (e) res.status(500).send()
