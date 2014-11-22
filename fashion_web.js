@@ -90,7 +90,7 @@ app.put('/users/:id/profilePicture', function(req, res, next) {
 
   var collection = db.collection('users')
  var action = {};
- str1 = "profilePIctureID"
+ str1 = "profilePictureID"
  action[str1] = req.body;
   collection.updateById(req.params.id, {$set: //inc for integers, set for strings
     {profilePictureID:req.body}
