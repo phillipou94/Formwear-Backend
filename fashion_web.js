@@ -13,9 +13,6 @@ var busboy = require('connect-busboy')
 var s3 = new AWS.S3()
 
 AWS.config.loadFromPath('./awsAccessKeys.json')
-
-
-
 app.use(bodyParser.json({limit: '50mb'}));
 app.use(bodyParser.urlencoded({limit: '50mb', extended: true}));
 app.use(busboy())
@@ -145,7 +142,7 @@ app.get('/items/:id',function(req,res){
 	})
 })
 
-//delete request for highlights
+//delete request for items
 app.delete('/items/:id', function(req,res){ //pass parameter id.
 	console.log("yep")
 	var collection = db.collection("items")
@@ -155,3 +152,25 @@ app.delete('/items/:id', function(req,res){ //pass parameter id.
 		res.send((result===1)?{msg: 'success'}:{msg:'error'})
 	})
 })
+
+/*******	Referals	*******/
+
+app.post('/referals',function(req,res){
+	var collection = db.collection("referals")
+	console.log(req.body)
+	collection.insert(req.body,{},function(e,results){
+		if (e) res.status(500).send()
+			res.send(results)
+	})
+
+})
+
+app.get('/referals/:id',function(req,res){
+	var collection = db.collection("referals")
+	collection.find({},{}).toArray(function(e,results){
+		console.log(e);
+		if(e) res.status(500).send()
+			res.send(results)
+	})
+})
+
