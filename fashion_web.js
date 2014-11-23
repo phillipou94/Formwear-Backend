@@ -165,7 +165,7 @@ app.post('/referals',function(req,res){
 
 })
 
-app.get('/referals/:id',function(req,res){
+app.get('/referals',function(req,res){
 	var collection = db.collection("referals")
 	collection.find({},{}).toArray(function(e,results){
 		console.log(e);
