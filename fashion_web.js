@@ -135,7 +135,7 @@ app.get('/items',function(req,res){
 //get request for items this user liked
 app.get('/items/:id',function(req,res){
 	var collection = db.collection("items")
-	collection.find({"likedBy": { $in: [req.params.id ] }},{}).toArray(function(e,results){
+	collection.find({"likedBy": { $in: [req.params.id ] }},{}).sort({dateCreated:-1}).toArray(function(e,results){
 		console.log(e);
 		if(e) res.status(500).send()
 			res.send(results)
