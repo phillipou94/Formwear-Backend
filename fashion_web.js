@@ -76,7 +76,7 @@ app.get('/users',function(req,res){
 app.get('/users/:id',function(req,res){
 	var collection = db.collection("users")
 	console.log(req.params.id)
-	collection.find({"userID": { $in: [req.params.id ] }},{}).toArray(function(e,results){
+	collection.find({"userID": req.params.id},{}).toArray(function(e,results){
 		console.log(e);
 		if(e) res.status(500).send()
 			res.send(results)
@@ -163,6 +163,15 @@ app.post('/referals',function(req,res){
 			res.send(results)
 	})
 
+})
+
+app.get('/referals/:id',function(req,res){
+	var collection = db.collection("referals")
+	collection.find({"toUserID":req.params.id},{}).toArray(function(e,results){
+		console.log(e);
+		if(e) res.status(500).send()
+			res.send(results)
+	})
 })
 
 app.get('/referals',function(req,res){
